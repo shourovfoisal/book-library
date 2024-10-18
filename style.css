@@ -1,6 +1,19 @@
+/* Font */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+/* Main */
+
 :root {
   --theme-text-color: #333;
   --theme-bg-color: #fff;
+  --theme-primary-color: #9f7aea;
+  --theme-primary-color-light: #b794f4;
+  --theme-secondary-color: #ed64a6;
+  --theme-secondary-color-light: #f687b3;
+
+  --theme-font-family: "Roboto", sans-serif;
+  --theme-font-size: 1rem;
+  --theme-font-weight: 400;
 }
 
 *,
@@ -13,5 +26,27 @@
 
 body {
   min-height: 100vh;
-  background-color: var(--theme-text-color);
+  background-color: var(--theme-bg-color);
+
+  font-family: var(--theme-font-family);
+  font-size: var(--theme-font-size);
+  font-weight: var(--theme-font-weight);
+}
+
+/* Navigation Styles */
+.navigation {
+  height: 5rem;
+  border-bottom: 0.25rem solid var(--theme-primary-color-light);
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  gap: 2rem;
+  list-style-type: none;
+
+  .navigation-link > a {
+    color: var(--theme-primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.3rem;
+  }
 }
