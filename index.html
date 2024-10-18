@@ -7,12 +7,34 @@
     <title>Book List</title>
   </head>
   <body>
+    <!-- Navigation -->
     <ul class="navigation">
       <li class="navigation-link"><a href="index.html">Book List</a></li>
       <li class="navigation-link" id="wishlist-link">
         <a href="./wish-list.html">Wish List</a>
       </li>
     </ul>
+
+    <div class="container">
+      <!-- Cards -->
+      <section class="book-cards" id="book-cards">
+        <div class="book-card">
+          <div class="card-image">
+            <img src="./public/cover.jpg" alt="Book" />
+          </div>
+
+          <div class="card-header">
+            <p class="card-sub-header">#15</p>
+            <h2 class="card-main-header">Book Name</h2>
+          </div>
+
+          <div class="card-body">
+            <p class="card-data-left">Author Name</p>
+            <p class="card-data-right">in <span>Genre</span></p>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <script src="main.js"></script>
   </body>

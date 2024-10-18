@@ -5,6 +5,7 @@
 
 :root {
   --theme-text-color: #333;
+  --theme-text-color-light: #999;
   --theme-bg-color: #fff;
   --theme-primary-color: #9f7aea;
   --theme-primary-color-light: #b794f4;
@@ -28,6 +29,7 @@ body {
   min-height: 100vh;
   background-color: var(--theme-bg-color);
 
+  color: var(--theme-text-color);
   font-family: var(--theme-font-family);
   font-size: var(--theme-font-size);
   font-weight: var(--theme-font-weight);
@@ -48,5 +50,66 @@ body {
     text-decoration: none;
     font-weight: 500;
     font-size: 1.3rem;
+  }
+}
+
+/* Container */
+.container {
+  margin: 0 10rem;
+}
+
+/* Card */
+.book-cards {
+  margin-top: 2rem;
+
+  .book-card {
+    width: 18rem;
+    border: 0.25rem solid var(--theme-secondary-color-light);
+    padding: 2rem;
+
+    .card-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center center;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .card-header {
+      margin-top: 0.8rem;
+
+      .card-sub-header {
+        color: var(--theme-secondary-color);
+        font-size: 0.8rem;
+      }
+
+      .card-main-header {
+        font-size: 1rem;
+        margin-top: 0.4rem;
+      }
+    }
+
+    .card-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+
+      .card-data-left {
+        font-weight: 600;
+      }
+
+      .card-data-right {
+        color: var(--theme-text-color-light);
+        span {
+          font-weight: 600;
+        }
+      }
+    }
   }
 }
