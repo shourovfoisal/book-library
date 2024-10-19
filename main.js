@@ -27,8 +27,12 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
   cardHeader.appendChild(cardSubHeader);
   const cardMainHeader = document.createElement("h2");
   cardMainHeader.classList.add("card-main-header");
-  // cardMainHeader.innerHTML = "Book Name";
-  cardMainHeader.innerHTML = bookName;
+  if (bookName?.length > 20) {
+    cardMainHeader.innerHTML = bookName?.substring(0, 40) + "...";
+    cardMainHeader.title = bookName;
+  } else {
+    cardMainHeader.innerHTML = bookName;
+  }
   cardHeader.appendChild(cardMainHeader);
 
   /**
