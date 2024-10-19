@@ -53,12 +53,15 @@ function cardGenerator() {
 
 async function fetchBooks() {
   // const response = await fetch("https://gutendex.com/books");
-  // console.log("🚀 ~ fetchBooks ~ response:", response);
+  const response = await fetch("./sample.json");
+  const data = await response.json();
+  console.log("🚀 ~ fetchBooks ~ data:", data);
 }
 
 (function init() {
   const bookCard = cardGenerator();
   const bookCardsElement = document.getElementById("book-cards");
   bookCardsElement.appendChild(bookCard);
+  console.log("init");
   fetchBooks();
 })();
