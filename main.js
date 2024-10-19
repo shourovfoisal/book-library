@@ -1,3 +1,7 @@
+function deleteDomElement(element) {
+  element.parentNode.removeChild(element);
+}
+
 function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
   const cardWrapper = document.createElement("div");
   cardWrapper.classList.add("book-card");
@@ -11,7 +15,7 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
   const cardImage = document.createElement("img");
   cardImage.src = imageUrl;
   cardImage.alt = bookName;
-  cardImageDiv.appendChild(cardImage);
+  cardImageDiv.append(cardImage);
 
   /**
    * Card Header
@@ -21,7 +25,7 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
   const cardSubHeader = document.createElement("p");
   cardSubHeader.classList.add("card-sub-header");
   cardSubHeader.innerHTML = `#${id}`;
-  cardHeader.appendChild(cardSubHeader);
+  cardHeader.append(cardSubHeader);
   const cardMainHeader = document.createElement("h2");
   cardMainHeader.classList.add("card-main-header");
   if (bookName?.length > 40) {
@@ -30,7 +34,7 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
   } else {
     cardMainHeader.innerHTML = bookName;
   }
-  cardHeader.appendChild(cardMainHeader);
+  cardHeader.append(cardMainHeader);
 
   /**
    * Card Body
@@ -40,31 +44,93 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
   const cardDataLeft = document.createElement("p");
   cardDataLeft.classList.add("card-data-left");
   cardDataLeft.innerHTML = authorNames;
-  cardBody.appendChild(cardDataLeft);
+  cardBody.append(cardDataLeft);
   const cardDataRight = document.createElement("p");
   cardDataRight.classList.add("card-data-right");
   cardDataRight.innerHTML = "in ";
   const cardDataSpan = document.createElement("span");
   cardDataSpan.innerHTML = genre;
-  cardDataRight.appendChild(cardDataSpan);
-  cardBody.appendChild(cardDataRight);
+  cardDataRight.append(cardDataSpan);
+  cardBody.append(cardDataRight);
 
-  cardWrapper.appendChild(cardImageDiv);
-  cardWrapper.appendChild(cardHeader);
-  cardWrapper.appendChild(cardBody);
+  cardWrapper.append(cardImageDiv);
+  cardWrapper.append(cardHeader);
+  cardWrapper.append(cardBody);
 
   return cardWrapper;
 }
 
-async function fetchBooks() {
+function paginationGenerator(data) {
+  // const currentNumberOfItems = data?.results?.length;
+  // const totalNumberOfPages = Math.ceil(data?.count / currentNumberOfItems);
+
+  const paginationSection = document.getElementById("pagination");
+
+  const existingPreviousButton = document.getElementById(
+    "pagination-button-previous"
+  );
+
+  if (existingPreviousButton === null) {
+    const previousButton = document.createElement("button");
+    previousButton.classList.add("pagination-button-previous");
+    previousButton.id = "pagination-button-previous";
+    previousButton.innerHTML = "Previous";
+
+    if (data?.previous !== null) {
+      previousButton.onclick = () => {
+        fetchBooks({ url: data.previous });
+      };
+      paginationSection.prepend(previousButton);
+    }
+  } else {
+    if (data?.previous === null) {
+      deleteDomElement(existingPreviousButton);
+    } else {
+      existingPreviousButton.onclick = () => {
+        fetchBooks({ url: data.previous });
+      };
+    }
+  }
+
+  const existingNextButton = document.getElementById("pagination-button-next");
+
+  if (existingNextButton === null) {
+    const nextButton = document.createElement("button");
+    nextButton.classList.add("pagination-button-next");
+    nextButton.id = "pagination-button-next";
+    nextButton.innerHTML = "Next";
+
+    if (data?.next !== null) {
+      nextButton.onclick = () => {
+        fetchBooks({ url: data.next });
+      };
+      paginationSection.append(nextButton);
+    }
+  } else {
+    if (data?.next === null) {
+      deleteDomElement(existingNextButton);
+    } else {
+      existingNextButton.onclick = () => {
+        fetchBooks({ url: data.next });
+      };
+    }
+  }
+}
+
+async function fetchBooks({ url }) {
   // const response = await fetch("https://gutendex.com/books");
-  const response = await fetch("./sample.json");
+  // const response = await fetch("./sample.json");
+  const response = await fetch(url);
   const data = await response.json();
-  // console.log("🚀 ~ fetchBooks ~ data:", data);
+  console.log("🚀 ~ fetchBooks ~ data:", data);
+
+  paginationGenerator(data);
+
   const { results } = data ?? {};
-  console.log("🚀 ~ fetchBooks ~ results:", results);
+  // console.log("🚀 ~ fetchBooks ~ results:", results);
 
   const bookCardsElement = document.getElementById("book-cards");
+  bookCardsElement.innerHTML = ""; // clears everything
   if (Array.isArray(results)) {
     results.forEach((eachBook) => {
       const cardGeneratorProps = {
@@ -74,11 +140,11 @@ async function fetchBooks() {
         authorNames: eachBook?.authors?.[0]?.name,
         genre: eachBook?.subjects?.[0],
       };
-      bookCardsElement.appendChild(cardGenerator(cardGeneratorProps));
+      bookCardsElement.append(cardGenerator(cardGeneratorProps));
     });
   }
 }
 
 (function init() {
-  fetchBooks();
+  fetchBooks({ url: "https://gutendex.com/books" });
 })();
