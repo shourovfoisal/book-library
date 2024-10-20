@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Wish List</title>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <ul class="navigation">
+      <li class="navigation-link"><a href="/">Book List</a></li>
+      <li class="navigation-link" id="wishlist-link">
+        <a href="/wish-list">Wish List</a>
+      </li>
+    </ul>
+
+    <div class="container">
+      <!-- Cards -->
+      <section class="single-book" id="single-book">
+        <div class="single-book-image" id="single-book-image">
+          <img
+            src="https://www.gutenberg.org/cache/epub/2641/pg2641.cover.medium.jpg"
+            alt=""
+          />
+        </div>
+        <div class="single-book-details">
+          <div class="single-book-id">#2641</div>
+          <h2 class="single-book-title">A Room with a View</h2>
+          <div class="single-book-author">
+            Forster, E. M. (Edward Morgan) <span>[1879 - 1970]</span>
+          </div>
+
+          <div class="single-book-genres">
+            <h3>Subject &mdash;</h3>
+            <div class="single-book-genres-all">
+              <p>British -- Italy -- Fiction</p>
+              <p>England -- Fiction</p>
+              <p>Florence (Italy) -- Fiction</p>
+              <p>Humorous stories</p>
+              <p>Young women -- Fiction</p>
+            </div>
+          </div>
+
+          <div class="single-book-bookshelves">
+            <h3>Bookshelves &mdash;</h3>
+
+            <div class="single-book-bookshelves-all">
+              <p>Browsing: Culture/Civilization/Society</p>
+              <p>Browsing: Fiction</p>
+              <p>Browsing: Humour</p>
+              <p>Browsing: Literature</p>
+              <p>Browsing: Travel & Geography</p>
+              <p>Italy</p>
+            </div>
+          </div>
+
+          <a
+            class="single-book-read-link"
+            href="https://www.gutenberg.org/ebooks/2641.html.images"
+            >Read This Book &rarr;</a
+          >
+        </div>
+      </section>
+    </div>
+
+    <script src="single.js"></script>
+  </body>
+</html>

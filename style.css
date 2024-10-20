@@ -143,6 +143,7 @@ select {
       aspect-ratio: 1 / 1;
       object-fit: cover;
       object-position: center center;
+      cursor: pointer;
 
       img {
         width: 100%;
@@ -173,6 +174,7 @@ select {
       .card-main-header {
         font-size: 1rem;
         margin-top: 0.9rem;
+        cursor: pointer;
       }
     }
 
@@ -219,6 +221,73 @@ select {
 
     &:hover {
       background-color: var(--theme-secondary-color-light);
+    }
+  }
+}
+
+/* Single Book Page */
+.single-book {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  background-color: var(--theme-ash-color-extra-light);
+  overflow: hidden;
+  border-radius: 0.5rem;
+
+  .single-book-image {
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .single-book-details {
+    padding: 3rem;
+
+    .single-book-id {
+      font-size: 2rem;
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    .single-book-title {
+      margin-top: 1rem;
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    .single-book-author {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+
+      span {
+        color: var(--theme-text-color-light);
+        margin-left: 0.2rem;
+      }
+    }
+
+    .single-book-genres,
+    .single-book-bookshelves {
+      margin-top: 1.3rem;
+
+      h3 {
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+    }
+
+    .single-book-genres-all,
+    .single-book-bookshelves-all {
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+    }
+
+    .single-book-read-link {
+      display: block;
+      margin-top: 1.5rem;
+      color: var(--theme-primary-color);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
     }
   }
 }

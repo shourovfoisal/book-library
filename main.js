@@ -1,9 +1,16 @@
+/**
+ * Constants
+ */
 const API_BASE_URL = "https://gutendex.com";
+const wishListEntryName = "book_wishlist";
+const selectedSingleBookIdEntryName = "selected_book_id";
 
+/**
+ * Utils
+ */
 function deleteDomElement(element) {
   element.parentNode.removeChild(element);
 }
-
 const debounce = (fn, delay = 500) => {
   let timer;
   return function () {
@@ -53,16 +60,12 @@ function handleGenreDropdownChange() {
 }
 
 /**
- * Wishlist - Localstorage
- */
-const entryName = "book_wishlist";
-/**
  * Responds with boolean. true=present, and false=not present
  * @param {Number} id
  * @returns {Boolean}
  */
 function checkIfBookIdIsInLocalStorage(id) {
-  const bookWishList = localStorage.getItem(entryName);
+  const bookWishList = localStorage.getItem(wishListEntryName);
   if (bookWishList === null) {
     return false;
   } else {
@@ -79,15 +82,15 @@ function checkIfBookIdIsInLocalStorage(id) {
  * @returns {Boolean}
  */
 function addBookToLocalStorage(book) {
-  const bookWishList = localStorage.getItem(entryName);
+  const bookWishList = localStorage.getItem(wishListEntryName);
   if (bookWishList === null) {
-    localStorage.setItem(entryName, JSON.stringify([book]));
+    localStorage.setItem(wishListEntryName, JSON.stringify([book]));
     return true;
   } else {
     const tempArray = JSON.parse(bookWishList);
     if (tempArray?.findIndex((eachBook) => eachBook?.id === book?.id) === -1) {
       tempArray?.push(book);
-      localStorage.setItem(entryName, JSON.stringify(tempArray));
+      localStorage.setItem(wishListEntryName, JSON.stringify(tempArray));
       return true;
     } else {
       return false;
@@ -95,13 +98,13 @@ function addBookToLocalStorage(book) {
   }
 }
 function removeBookFromLocalStorage(book) {
-  const bookWishList = localStorage.getItem(entryName);
+  const bookWishList = localStorage.getItem(wishListEntryName);
   if (bookWishList === null) {
     return;
   } else {
     const tempArray = JSON.parse(bookWishList);
     localStorage.setItem(
-      entryName,
+      wishListEntryName,
       JSON.stringify(tempArray?.filter((eachBook) => eachBook?.id !== book?.id))
     );
   }
@@ -124,6 +127,10 @@ function cardGenerator(book) {
    */
   const cardImageDiv = document.createElement("div");
   cardImageDiv.classList.add("card-image");
+  cardImageDiv.onclick = () => {
+    localStorage.setItem(selectedSingleBookIdEntryName, cardInfo?.id);
+    window.location.href = "/single";
+  };
 
   const cardImage = document.createElement("img");
   cardImage.src = cardInfo?.imageUrl;
@@ -164,6 +171,10 @@ function cardGenerator(book) {
 
   const cardMainHeader = document.createElement("h2");
   cardMainHeader.classList.add("card-main-header");
+  cardMainHeader.onclick = () => {
+    localStorage.setItem(selectedSingleBookIdEntryName, cardInfo?.id);
+    window.location.href = "/single";
+  };
   if (cardInfo?.bookName?.length > 40) {
     cardMainHeader.innerHTML = cardInfo?.bookName?.substring(0, 40) + "...";
     cardMainHeader.title = cardInfo?.bookName;

@@ -1,5 +1,5 @@
 function getWishlistBooksFromLocalStorage() {
-  const bookWishList = localStorage.getItem(entryName);
+  const bookWishList = localStorage.getItem(wishListEntryName);
   if (bookWishList === null) {
     return [];
   } else {
