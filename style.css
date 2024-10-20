@@ -89,6 +89,14 @@ body {
       .card-sub-header {
         color: var(--theme-secondary-color);
         font-size: 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & > div {
+          height: 1.2rem;
+          width: 1.2rem;
+        }
       }
 
       .card-main-header {

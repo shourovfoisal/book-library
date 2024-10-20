@@ -22,10 +22,20 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
    */
   const cardHeader = document.createElement("div");
   cardHeader.classList.add("card-header");
-  const cardSubHeader = document.createElement("p");
+
+  const cardSubHeader = document.createElement("div");
   cardSubHeader.classList.add("card-sub-header");
-  cardSubHeader.innerHTML = `#${id}`;
+  // cardImageDiv.id = `imageDiv_${id}`;
+  const cardSubHeaderLeft = document.createElement("span");
+  cardSubHeaderLeft.innerHTML = `#${id}`;
+  cardSubHeader.append(cardSubHeaderLeft);
+  const cardSubHeaderRight = document.createElement("div");
+  const cardWishImageElement = document.createElement("img");
+  cardWishImageElement.src = "./public/heart-solid-gray.svg";
+  cardSubHeaderRight.append(cardWishImageElement);
+  cardSubHeader.append(cardSubHeaderRight);
   cardHeader.append(cardSubHeader);
+
   const cardMainHeader = document.createElement("h2");
   cardMainHeader.classList.add("card-main-header");
   if (bookName?.length > 40) {
