@@ -53,40 +53,40 @@ function handleGenreDropdownChange() {
 }
 
 /**
+ * Wishlist - Localstorage
+ */
+const entryName = "book_wishlist";
+/**
  * Responds with boolean. true=present, and false=not present
  * @param {Number} id
  * @returns {Boolean}
  */
 function checkIfBookIdIsInLocalStorage(id) {
-  const entryName = "book_id_wishlist";
-  const bookIdList = localStorage.getItem(entryName);
-  if (bookIdList === null) {
+  const bookWishList = localStorage.getItem(entryName);
+  if (bookWishList === null) {
     return false;
   } else {
-    const tempArray = JSON.parse(bookIdList);
-    if (tempArray?.includes(id)) {
+    const tempArray = JSON.parse(bookWishList);
+    if (tempArray?.findIndex((eachBook) => eachBook?.id === id) !== -1) {
       return true;
     } else {
       return false;
     }
   }
 }
-
 /**
  * Responds with boolean. true=success, and false=failure
- * @param {Number} id
  * @returns {Boolean}
  */
-function addBookIdToLocalStorage(id) {
-  const entryName = "book_id_wishlist";
-  const bookIdList = localStorage.getItem(entryName);
-  if (bookIdList === null) {
-    localStorage.setItem(entryName, JSON.stringify([id]));
+function addBookToLocalStorage(book) {
+  const bookWishList = localStorage.getItem(entryName);
+  if (bookWishList === null) {
+    localStorage.setItem(entryName, JSON.stringify([book]));
     return true;
   } else {
-    const tempArray = JSON.parse(bookIdList);
-    if (!tempArray?.includes(id)) {
-      tempArray?.push(id);
+    const tempArray = JSON.parse(bookWishList);
+    if (tempArray?.findIndex((eachBook) => eachBook?.id === book?.id) === -1) {
+      tempArray?.push(book);
       localStorage.setItem(entryName, JSON.stringify(tempArray));
       return true;
     } else {
@@ -94,22 +94,28 @@ function addBookIdToLocalStorage(id) {
     }
   }
 }
-
-function removeBookIdFromLocalStorage(id) {
-  const entryName = "book_id_wishlist";
-  const bookIdList = localStorage.getItem(entryName);
-  if (bookIdList === null) {
+function removeBookFromLocalStorage(book) {
+  const bookWishList = localStorage.getItem(entryName);
+  if (bookWishList === null) {
     return;
   } else {
-    const tempArray = JSON.parse(bookIdList);
+    const tempArray = JSON.parse(bookWishList);
     localStorage.setItem(
       entryName,
-      JSON.stringify(tempArray?.filter((eachId) => eachId !== id))
+      JSON.stringify(tempArray?.filter((eachBook) => eachBook?.id !== book?.id))
     );
   }
 }
 
-function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
+function cardGenerator(book) {
+  const cardInfo = {
+    imageUrl: book?.formats?.["image/jpeg"],
+    id: book?.id,
+    bookName: book?.title,
+    authorNames: book?.authors?.[0]?.name,
+    genreList: book?.subjects,
+  };
+
   const cardWrapper = document.createElement("div");
   cardWrapper.classList.add("book-card");
 
@@ -120,8 +126,8 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
   cardImageDiv.classList.add("card-image");
 
   const cardImage = document.createElement("img");
-  cardImage.src = imageUrl;
-  cardImage.alt = bookName;
+  cardImage.src = cardInfo?.imageUrl;
+  cardImage.alt = cardInfo?.bookName;
   cardImageDiv.append(cardImage);
 
   /**
@@ -133,22 +139,22 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
   const cardSubHeader = document.createElement("div");
   cardSubHeader.classList.add("card-sub-header");
   const cardSubHeaderLeft = document.createElement("span");
-  cardSubHeaderLeft.innerHTML = `#${id}`;
+  cardSubHeaderLeft.innerHTML = `#${cardInfo?.id}`;
   cardSubHeader.append(cardSubHeaderLeft);
   const cardSubHeaderRight = document.createElement("div");
   const cardWishImageElement = document.createElement("img");
   cardWishImageElement.alt = "heart icon";
-  if (checkIfBookIdIsInLocalStorage(id)) {
+  if (checkIfBookIdIsInLocalStorage(cardInfo?.id)) {
     cardWishImageElement.src = "./public/heart-solid-pink.svg";
   } else {
     cardWishImageElement.src = "./public/heart-solid-gray.svg";
   }
   cardWishImageElement.onclick = () => {
-    const result = addBookIdToLocalStorage(id);
+    const result = addBookToLocalStorage(book);
     if (result) {
       cardWishImageElement.src = "./public/heart-solid-pink.svg";
     } else {
-      removeBookIdFromLocalStorage(id);
+      removeBookFromLocalStorage(book);
       cardWishImageElement.src = "./public/heart-solid-gray.svg";
     }
   };
@@ -158,11 +164,11 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
 
   const cardMainHeader = document.createElement("h2");
   cardMainHeader.classList.add("card-main-header");
-  if (bookName?.length > 40) {
-    cardMainHeader.innerHTML = bookName?.substring(0, 40) + "...";
-    cardMainHeader.title = bookName;
+  if (cardInfo?.bookName?.length > 40) {
+    cardMainHeader.innerHTML = cardInfo?.bookName?.substring(0, 40) + "...";
+    cardMainHeader.title = cardInfo?.bookName;
   } else {
-    cardMainHeader.innerHTML = bookName;
+    cardMainHeader.innerHTML = cardInfo?.bookName;
   }
   cardHeader.append(cardMainHeader);
 
@@ -174,7 +180,7 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
 
   const authorNameElement = document.createElement("p");
   authorNameElement.classList.add("author-name");
-  const authorNamesArray = authorNames
+  const authorNamesArray = cardInfo?.authorNames
     ?.split(",")
     ?.filter((authorName) => authorName); // to filter out possible empty strings
   if (authorNamesArray?.length > 1) {
@@ -192,13 +198,13 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
   genreNameElement.classList.add("genre-name");
   genreNameElement.innerHTML = "in ";
   const cardDataSpan = document.createElement("span");
-  if (genreList?.length > 1) {
-    const remainingGenreCount = genreList?.length - 1;
+  if (cardInfo?.genreList?.length > 1) {
+    const remainingGenreCount = cardInfo?.genreList?.length - 1;
     cardDataSpan.innerHTML = `${
-      genreList?.[0]
+      cardInfo?.genreList?.[0]
     } and ${remainingGenreCount} other${remainingGenreCount > 1 ? "s" : ""}`;
   } else {
-    cardDataSpan.innerHTML = genreList?.[0];
+    cardDataSpan.innerHTML = cardInfo?.genreList?.[0];
   }
   genreNameElement.append(cardDataSpan);
   cardBody.append(genreNameElement);
@@ -293,15 +299,7 @@ async function fetchBooks({ url, onAfterFetch }) {
         }
       });
 
-      // Generating and showing the cards
-      const cardGeneratorProps = {
-        imageUrl: eachBook?.formats?.["image/jpeg"],
-        id: eachBook?.id,
-        bookName: eachBook?.title,
-        authorNames: eachBook?.authors?.[0]?.name,
-        genreList: eachBook?.subjects,
-      };
-      bookCardsElement.append(cardGenerator(cardGeneratorProps));
+      bookCardsElement.append(cardGenerator(eachBook));
     });
 
     const genreDropdownWrapper = document.getElementById(
