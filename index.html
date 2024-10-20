@@ -15,12 +15,7 @@
       </li>
     </ul>
 
-    <div class="container relative">
-      <div class="loading-screen no-display" id="loading-screen">
-        <div>
-          <div class="loader"></div>
-        </div>
-      </div>
+    <div class="container">
       <!-- Search and Filter -->
       <section class="search-and-filter">
         <input
@@ -42,7 +37,13 @@
         </div>
       </section>
       <!-- Cards -->
-      <section class="book-cards" id="book-cards"></section>
+      <section class="book-cards relative" id="book-cards">
+        <div class="loading-screen no-display" id="loading-screen">
+          <div>
+            <div class="loader"></div>
+          </div>
+        </div>
+      </section>
       <section class="pagination" id="pagination"></section>
     </div>
 
