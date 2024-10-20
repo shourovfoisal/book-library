@@ -222,53 +222,57 @@ function paginationGenerator(data) {
 
   const paginationSection = document.getElementById("pagination");
 
-  const existingPreviousButton = document.getElementById(
-    "pagination-button-previous"
-  );
+  if (paginationSection !== null) {
+    const existingPreviousButton = document.getElementById(
+      "pagination-button-previous"
+    );
 
-  if (existingPreviousButton === null) {
-    const previousButton = document.createElement("button");
-    previousButton.classList.add("pagination-button-previous");
-    previousButton.id = "pagination-button-previous";
-    previousButton.innerHTML = "Previous";
+    if (existingPreviousButton === null) {
+      const previousButton = document.createElement("button");
+      previousButton.classList.add("pagination-button-previous");
+      previousButton.id = "pagination-button-previous";
+      previousButton.innerHTML = "Previous";
 
-    if (data?.previous !== null) {
-      previousButton.onclick = () => {
-        fetchBooks({ url: data.previous });
-      };
-      paginationSection.prepend(previousButton);
-    }
-  } else {
-    if (data?.previous === null) {
-      deleteDomElement(existingPreviousButton);
+      if (data?.previous !== null) {
+        previousButton.onclick = () => {
+          fetchBooks({ url: data.previous });
+        };
+        paginationSection.prepend(previousButton);
+      }
     } else {
-      existingPreviousButton.onclick = () => {
-        fetchBooks({ url: data.previous });
-      };
+      if (data?.previous === null) {
+        deleteDomElement(existingPreviousButton);
+      } else {
+        existingPreviousButton.onclick = () => {
+          fetchBooks({ url: data.previous });
+        };
+      }
     }
-  }
 
-  const existingNextButton = document.getElementById("pagination-button-next");
+    const existingNextButton = document.getElementById(
+      "pagination-button-next"
+    );
 
-  if (existingNextButton === null) {
-    const nextButton = document.createElement("button");
-    nextButton.classList.add("pagination-button-next");
-    nextButton.id = "pagination-button-next";
-    nextButton.innerHTML = "Next";
+    if (existingNextButton === null) {
+      const nextButton = document.createElement("button");
+      nextButton.classList.add("pagination-button-next");
+      nextButton.id = "pagination-button-next";
+      nextButton.innerHTML = "Next";
 
-    if (data?.next !== null) {
-      nextButton.onclick = () => {
-        fetchBooks({ url: data.next });
-      };
-      paginationSection.append(nextButton);
-    }
-  } else {
-    if (data?.next === null) {
-      deleteDomElement(existingNextButton);
+      if (data?.next !== null) {
+        nextButton.onclick = () => {
+          fetchBooks({ url: data.next });
+        };
+        paginationSection.append(nextButton);
+      }
     } else {
-      existingNextButton.onclick = () => {
-        fetchBooks({ url: data.next });
-      };
+      if (data?.next === null) {
+        deleteDomElement(existingNextButton);
+      } else {
+        existingNextButton.onclick = () => {
+          fetchBooks({ url: data.next });
+        };
+      }
     }
   }
 }
@@ -312,10 +316,3 @@ async function fetchBooks({ url, onAfterFetch }) {
     }
   }
 }
-
-(function init() {
-  fetchBooks({
-    url: `${API_BASE_URL}/books/`,
-    // url: "./sample.json",
-  });
-})();

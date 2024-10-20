@@ -3,7 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Wish List</title>
   </head>
-  <body></body>
+  <body>
+    <!-- Navigation -->
+    <ul class="navigation">
+      <li class="navigation-link"><a href="/">Book List</a></li>
+      <li class="navigation-link" id="wishlist-link">
+        <a href="/wish-list">Wish List</a>
+      </li>
+    </ul>
+
+    <div class="container">
+      <!-- Cards -->
+      <section class="book-cards" id="wishlist-cards"></section>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="wishlist.js"></script>
+  </body>
 </html>

@@ -11,7 +11,7 @@
     <ul class="navigation">
       <li class="navigation-link"><a href="/">Book List</a></li>
       <li class="navigation-link" id="wishlist-link">
-        <a href="./wish-list.html">Wish List</a>
+        <a href="/wish-list">Wish List</a>
       </li>
     </ul>
 
@@ -49,5 +49,12 @@
     </div>
 
     <script src="main.js"></script>
+    <script>
+      (function init() {
+        fetchBooks({
+          url: `${API_BASE_URL}/books/`,
+        });
+      })();
+    </script>
   </body>
 </html>
