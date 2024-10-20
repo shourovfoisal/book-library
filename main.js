@@ -2,7 +2,7 @@ function deleteDomElement(element) {
   element.parentNode.removeChild(element);
 }
 
-function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
+function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
   const cardWrapper = document.createElement("div");
   cardWrapper.classList.add("book-card");
 
@@ -42,29 +42,36 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
   const cardBody = document.createElement("div");
   cardBody.classList.add("card-body");
 
-  const cardDataLeft = document.createElement("p");
-  cardDataLeft.classList.add("author-name");
+  const authorNameElement = document.createElement("p");
+  authorNameElement.classList.add("author-name");
   const authorNamesArray = authorNames
     ?.split(",")
     ?.filter((authorName) => authorName); // to filter out possible empty strings
   if (authorNamesArray?.length > 1) {
     const remainingAuthorCount = authorNamesArray?.length - 1;
-    cardDataLeft.innerHTML = `${
+    authorNameElement.innerHTML = `${
       authorNamesArray?.[0]
     } and ${remainingAuthorCount} other${remainingAuthorCount > 1 ? "s" : ""}`;
   } else {
-    cardDataLeft.innerHTML = authorNamesArray?.[0];
+    authorNameElement.innerHTML = authorNamesArray?.[0];
   }
 
-  cardBody.append(cardDataLeft);
+  cardBody.append(authorNameElement);
 
-  const cardDataRight = document.createElement("p");
-  cardDataRight.classList.add("genre-name");
-  cardDataRight.innerHTML = "in ";
+  const genreNameElement = document.createElement("p");
+  genreNameElement.classList.add("genre-name");
+  genreNameElement.innerHTML = "in ";
   const cardDataSpan = document.createElement("span");
-  cardDataSpan.innerHTML = genre;
-  cardDataRight.append(cardDataSpan);
-  cardBody.append(cardDataRight);
+  if (genreList?.length > 1) {
+    const remainingGenreCount = genreList?.length - 1;
+    cardDataSpan.innerHTML = `${
+      genreList?.[0]
+    } and ${remainingGenreCount} other${remainingGenreCount > 1 ? "s" : ""}`;
+  } else {
+    cardDataSpan.innerHTML = genreList?.[0];
+  }
+  genreNameElement.append(cardDataSpan);
+  cardBody.append(genreNameElement);
 
   cardWrapper.append(cardImageDiv);
   cardWrapper.append(cardHeader);
@@ -149,7 +156,7 @@ async function fetchBooks({ url }) {
         id: eachBook?.id,
         bookName: eachBook?.title,
         authorNames: eachBook?.authors?.[0]?.name,
-        genre: eachBook?.subjects?.[0],
+        genreList: eachBook?.subjects,
       };
       bookCardsElement.append(cardGenerator(cardGeneratorProps));
     });
