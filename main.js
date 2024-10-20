@@ -25,14 +25,24 @@ const handleSearchInputChange = debounce(() => {
   const genreDropdownElement = document.getElementById("genre-dropdown");
 
   const searchInputElement = document.getElementById("title-search");
-  const searchInput = searchInputElement.value?.trim();
-  if (searchInput) {
+
+  const searchInput = searchInputElement.value;
+  const trimmedSearchInput = searchInput?.trim();
+
+  if (trimmedSearchInput) {
     genreDropdownElement.value = "";
     genreDropdownElement.classList.add("input-disabled");
 
-    const searchUrl = `${API_BASE_URL}/books/?search=${searchInput}`;
+    const searchUrl = `${API_BASE_URL}/books/?search=${trimmedSearchInput}`;
     fetchBooks({
       url: searchUrl,
+      onAfterFetch: () => {
+        genreDropdownElement.classList.remove("input-disabled");
+      },
+    });
+  } else if (searchInput?.length === 0) {
+    fetchBooks({
+      url: `${API_BASE_URL}/books/`,
       onAfterFetch: () => {
         genreDropdownElement.classList.remove("input-disabled");
       },
@@ -226,9 +236,6 @@ function cardGenerator(book) {
 }
 
 function paginationGenerator(data) {
-  // const currentNumberOfItems = data?.results?.length;
-  // const totalNumberOfPages = Math.ceil(data?.count / currentNumberOfItems);
-
   const paginationSection = document.getElementById("pagination");
 
   if (paginationSection !== null) {
@@ -328,11 +335,6 @@ async function fetchBooks({ url, onAfterFetch }) {
 
       bookCardsElement.append(cardGenerator(eachBook));
     });
-
-    // const genreDropdownWrapper = document.getElementById(
-    //   "genre-dropdown-wrapper"
-    // );
-    // genreDropdownWrapper.classList.remove("hidden");
 
     if (onAfterFetch) {
       onAfterFetch();
