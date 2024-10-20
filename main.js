@@ -44,7 +44,18 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
 
   const cardDataLeft = document.createElement("p");
   cardDataLeft.classList.add("author-name");
-  cardDataLeft.innerHTML = authorNames;
+  const authorNamesArray = authorNames
+    ?.split(",")
+    ?.filter((authorName) => authorName); // to filter out possible empty strings
+  if (authorNamesArray?.length > 1) {
+    const remainingAuthorCount = authorNamesArray?.length - 1;
+    cardDataLeft.innerHTML = `${
+      authorNamesArray?.[0]
+    } and ${remainingAuthorCount} other${remainingAuthorCount > 1 ? "s" : ""}`;
+  } else {
+    cardDataLeft.innerHTML = authorNamesArray?.[0];
+  }
+
   cardBody.append(cardDataLeft);
 
   const cardDataRight = document.createElement("p");
