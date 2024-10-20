@@ -96,6 +96,10 @@ body {
         & > div {
           height: 1.2rem;
           width: 1.2rem;
+
+          & > img {
+            cursor: pointer;
+          }
         }
       }
 

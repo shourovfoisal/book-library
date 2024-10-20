@@ -2,6 +2,63 @@ function deleteDomElement(element) {
   element.parentNode.removeChild(element);
 }
 
+/**
+ * Responds with boolean. true=present, and false=not present
+ * @param {Number} id
+ * @returns {Boolean}
+ */
+function checkIfBookIdIsInLocalStorage(id) {
+  const entryName = "book_id_wishlist";
+  const bookIdList = localStorage.getItem(entryName);
+  if (bookIdList === null) {
+    return false;
+  } else {
+    const tempArray = JSON.parse(bookIdList);
+    if (tempArray?.includes(id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+/**
+ * Responds with boolean. true=success, and false=failure
+ * @param {Number} id
+ * @returns {Boolean}
+ */
+function addBookIdToLocalStorage(id) {
+  const entryName = "book_id_wishlist";
+  const bookIdList = localStorage.getItem(entryName);
+  if (bookIdList === null) {
+    localStorage.setItem(entryName, JSON.stringify([id]));
+    return true;
+  } else {
+    const tempArray = JSON.parse(bookIdList);
+    if (!tempArray?.includes(id)) {
+      tempArray?.push(id);
+      localStorage.setItem(entryName, JSON.stringify(tempArray));
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+function removeBookIdFromLocalStorage(id) {
+  const entryName = "book_id_wishlist";
+  const bookIdList = localStorage.getItem(entryName);
+  if (bookIdList === null) {
+    return;
+  } else {
+    const tempArray = JSON.parse(bookIdList);
+    localStorage.setItem(
+      entryName,
+      JSON.stringify(tempArray?.filter((eachId) => eachId !== id))
+    );
+  }
+}
+
 function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
   const cardWrapper = document.createElement("div");
   cardWrapper.classList.add("book-card");
@@ -31,7 +88,21 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
   cardSubHeader.append(cardSubHeaderLeft);
   const cardSubHeaderRight = document.createElement("div");
   const cardWishImageElement = document.createElement("img");
-  cardWishImageElement.src = "./public/heart-solid-gray.svg";
+  if (checkIfBookIdIsInLocalStorage(id)) {
+    cardWishImageElement.src = "./public/heart-solid-purple.svg";
+  } else {
+    cardWishImageElement.src = "./public/heart-solid-gray.svg";
+  }
+  cardWishImageElement.onclick = () => {
+    const result = addBookIdToLocalStorage(id);
+    if (result) {
+      cardWishImageElement.src = "./public/heart-solid-purple.svg";
+    } else {
+      console.log("Remove!");
+      removeBookIdFromLocalStorage(id);
+      cardWishImageElement.src = "./public/heart-solid-gray.svg";
+    }
+  };
   cardSubHeaderRight.append(cardWishImageElement);
   cardSubHeader.append(cardSubHeaderRight);
   cardHeader.append(cardSubHeader);
