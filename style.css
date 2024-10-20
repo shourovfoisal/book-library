@@ -227,3 +227,8 @@ select {
 .hidden {
   visibility: hidden;
 }
+.input-disabled {
+  background-color: var(--theme-ash-color);
+  cursor: not-allowed;
+  pointer-events: none;
+}

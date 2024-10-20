@@ -16,25 +16,39 @@ const debounce = (fn, delay = 500) => {
 const handleSearchInputChange = debounce(() => {
   // Resetting the other filter
   const genreDropdownElement = document.getElementById("genre-dropdown");
-  genreDropdownElement.value = "";
 
   const searchInputElement = document.getElementById("title-search");
   const searchInput = searchInputElement.value?.trim();
   if (searchInput) {
+    genreDropdownElement.value = "";
+    genreDropdownElement.classList.add("input-disabled");
+
     const searchUrl = `${API_BASE_URL}/books/?search=${searchInput}`;
-    fetchBooks({ url: searchUrl });
+    fetchBooks({
+      url: searchUrl,
+      onAfterFetch: () => {
+        genreDropdownElement.classList.remove("input-disabled");
+      },
+    });
   }
 });
 function handleGenreDropdownChange() {
   // Resetting the other filter
   const searchInputElement = document.getElementById("title-search");
-  searchInputElement.value = "";
 
   const genreDropdownElement = document.getElementById("genre-dropdown");
   const selectedGenre = genreDropdownElement.value?.trim();
   if (selectedGenre) {
+    searchInputElement.value = "";
+    searchInputElement.classList.add("input-disabled");
+
     const searchUrl = `${API_BASE_URL}/books/?topic=${selectedGenre}`;
-    fetchBooks({ url: searchUrl });
+    fetchBooks({
+      url: searchUrl,
+      onAfterFetch: () => {
+        searchInputElement.classList.remove("input-disabled");
+      },
+    });
   }
 }
 
@@ -253,7 +267,7 @@ function paginationGenerator(data) {
   }
 }
 
-async function fetchBooks({ url }) {
+async function fetchBooks({ url, onAfterFetch }) {
   const response = await fetch(url);
   const data = await response.json();
 
@@ -294,6 +308,10 @@ async function fetchBooks({ url }) {
       "genre-dropdown-wrapper"
     );
     genreDropdownWrapper.classList.remove("hidden");
+
+    if (onAfterFetch) {
+      onAfterFetch();
+    }
   }
 }
 
