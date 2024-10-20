@@ -12,14 +12,31 @@ const debounce = (fn, delay = 500) => {
   };
 };
 
+// Search and Filters
 const handleSearchInputChange = debounce(() => {
+  // Resetting the other filter
+  const genreDropdownElement = document.getElementById("genre-dropdown");
+  genreDropdownElement.value = "";
+
   const searchInputElement = document.getElementById("title-search");
   const searchInput = searchInputElement.value?.trim();
   if (searchInput) {
-    const searchUrl = `${API_BASE_URL}/books?search=${searchInput}`;
+    const searchUrl = `${API_BASE_URL}/books/?search=${searchInput}`;
     fetchBooks({ url: searchUrl });
   }
 });
+function handleGenreDropdownChange() {
+  // Resetting the other filter
+  const searchInputElement = document.getElementById("title-search");
+  searchInputElement.value = "";
+
+  const genreDropdownElement = document.getElementById("genre-dropdown");
+  const selectedGenre = genreDropdownElement.value?.trim();
+  if (selectedGenre) {
+    const searchUrl = `${API_BASE_URL}/books/?topic=${selectedGenre}`;
+    fetchBooks({ url: searchUrl });
+  }
+}
 
 /**
  * Responds with boolean. true=present, and false=not present
@@ -282,7 +299,7 @@ async function fetchBooks({ url }) {
 
 (function init() {
   fetchBooks({
-    url: `${API_BASE_URL}/books`,
+    url: `${API_BASE_URL}/books/`,
     // url: "./sample.json",
   });
 })();

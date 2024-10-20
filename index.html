@@ -23,11 +23,15 @@
           id="title-search"
           class="title-search"
           placeholder="Search by Title"
-          onkeyup="handleSearchInputChange(event)"
+          onkeyup="handleSearchInputChange()"
         />
         <div class="genre-dropdown-wrapper hidden" id="genre-dropdown-wrapper">
           <img src="./public/caret-down-solid-purple.svg" alt="caret down" />
-          <select class="genre-dropdown" id="genre-dropdown">
+          <select
+            class="genre-dropdown"
+            id="genre-dropdown"
+            onchange="handleGenreDropdownChange()"
+          >
             <option value="">Select an Option</option>
           </select>
         </div>
