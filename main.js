@@ -115,7 +115,7 @@ function cardGenerator(book) {
     imageUrl: book?.formats?.["image/jpeg"],
     id: book?.id,
     bookName: book?.title,
-    authorNames: book?.authors?.[0]?.name,
+    authors: book?.authors,
     genreList: book?.subjects,
   };
 
@@ -191,16 +191,14 @@ function cardGenerator(book) {
 
   const authorNameElement = document.createElement("p");
   authorNameElement.classList.add("author-name");
-  const authorNamesArray = cardInfo?.authorNames
-    ?.split(",")
-    ?.filter((authorName) => authorName); // to filter out possible empty strings
-  if (authorNamesArray?.length > 1) {
-    const remainingAuthorCount = authorNamesArray?.length - 1;
+  const authorArray = cardInfo?.authors;
+  if (authorArray?.length > 1) {
+    const remainingAuthorCount = authorArray?.length - 1;
     authorNameElement.innerHTML = `${
-      authorNamesArray?.[0]
+      authorArray?.[0]?.name
     } and ${remainingAuthorCount} other${remainingAuthorCount > 1 ? "s" : ""}`;
   } else {
-    authorNameElement.innerHTML = authorNamesArray?.[0];
+    authorNameElement.innerHTML = authorArray?.[0]?.name;
   }
 
   cardBody.append(authorNameElement);
@@ -289,8 +287,13 @@ function paginationGenerator(data) {
 }
 
 async function fetchBooks({ url, onAfterFetch }) {
+  const loadingScreenElement = document.getElementById("loading-screen");
+  loadingScreenElement.classList.remove("no-display");
+
   const response = await fetch(url);
   const data = await response.json();
+
+  loadingScreenElement.classList.add("no-display");
 
   paginationGenerator(data);
 

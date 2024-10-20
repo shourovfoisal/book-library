@@ -15,7 +15,12 @@
       </li>
     </ul>
 
-    <div class="container">
+    <div class="container relative">
+      <div class="loading-screen no-display" id="loading-screen">
+        <div>
+          <div class="loader"></div>
+        </div>
+      </div>
       <!-- Search and Filter -->
       <section class="search-and-filter">
         <input
@@ -32,7 +37,7 @@
             id="genre-dropdown"
             onchange="handleGenreDropdownChange()"
           >
-            <option value="">Select an Option</option>
+            <option value="">Select a Genre</option>
           </select>
         </div>
       </section>

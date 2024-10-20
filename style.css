@@ -228,15 +228,19 @@ select {
 /* Single Book Page */
 .single-book {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   background-color: var(--theme-ash-color-extra-light);
   overflow: hidden;
   border-radius: 0.5rem;
 
   .single-book-image {
+    object-position: center;
+    object-fit: cover;
+    border: 1px solid var(--theme-ash-color-extra-light);
+
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
     }
   }
 
@@ -299,8 +303,52 @@ select {
 .hidden {
   visibility: hidden;
 }
+.no-display {
+  display: none;
+}
 .input-disabled {
   background-color: var(--theme-ash-color);
   cursor: not-allowed;
   pointer-events: none;
+}
+.relative {
+  position: relative;
+}
+.loading-screen {
+  position: absolute;
+  inset: 0;
+  background-color: var(--theme-bg-color);
+}
+
+/* Loader */
+.loader {
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 8px solid var(--theme-primary-color);
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+
+  margin: 0 auto;
+  margin-top: 40vh;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
