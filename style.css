@@ -98,18 +98,16 @@ body {
     }
 
     .card-body {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1.2rem;
+      margin-top: 0.5rem;
       font-size: 0.8rem;
 
-      .card-data-left {
+      .author-names {
         font-weight: 600;
       }
 
-      .card-data-right {
+      .genre-name {
         color: var(--theme-text-color-light);
+        margin-top: 0.5rem;
         span {
           font-weight: 600;
         }

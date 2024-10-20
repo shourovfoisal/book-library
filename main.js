@@ -41,12 +41,14 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genre }) {
    */
   const cardBody = document.createElement("div");
   cardBody.classList.add("card-body");
+
   const cardDataLeft = document.createElement("p");
-  cardDataLeft.classList.add("card-data-left");
+  cardDataLeft.classList.add("author-name");
   cardDataLeft.innerHTML = authorNames;
   cardBody.append(cardDataLeft);
+
   const cardDataRight = document.createElement("p");
-  cardDataRight.classList.add("card-data-right");
+  cardDataRight.classList.add("genre-name");
   cardDataRight.innerHTML = "in ";
   const cardDataSpan = document.createElement("span");
   cardDataSpan.innerHTML = genre;
@@ -118,8 +120,6 @@ function paginationGenerator(data) {
 }
 
 async function fetchBooks({ url }) {
-  // const response = await fetch("https://gutendex.com/books");
-  // const response = await fetch("./sample.json");
   const response = await fetch(url);
   const data = await response.json();
   console.log("🚀 ~ fetchBooks ~ data:", data);
@@ -146,5 +146,8 @@ async function fetchBooks({ url }) {
 }
 
 (function init() {
-  fetchBooks({ url: "https://gutendex.com/books" });
+  fetchBooks({
+    // url: "https://gutendex.com/books",
+    url: "./sample.json",
+  });
 })();
