@@ -79,6 +79,8 @@ select {
 select {
   appearance: none;
   color: var(--theme-ash-color);
+  width: 100%;
+  padding-right: 2.5rem;
 
   & > option {
     color: var(--theme-text-color);
@@ -105,7 +107,21 @@ select {
   .title-search {
   }
 
-  .genre-dropdown {
+  .genre-dropdown-wrapper {
+    position: relative;
+
+    img {
+      position: absolute;
+      width: auto;
+      height: 1.4rem;
+      right: 1rem;
+      top: calc(50% - 0.1rem);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .genre-dropdown {
+    }
   }
 }
 

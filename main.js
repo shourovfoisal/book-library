@@ -82,12 +82,12 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
 
   const cardSubHeader = document.createElement("div");
   cardSubHeader.classList.add("card-sub-header");
-  // cardImageDiv.id = `imageDiv_${id}`;
   const cardSubHeaderLeft = document.createElement("span");
   cardSubHeaderLeft.innerHTML = `#${id}`;
   cardSubHeader.append(cardSubHeaderLeft);
   const cardSubHeaderRight = document.createElement("div");
   const cardWishImageElement = document.createElement("img");
+  cardWishImageElement.alt = "heart icon";
   if (checkIfBookIdIsInLocalStorage(id)) {
     cardWishImageElement.src = "./public/heart-solid-pink.svg";
   } else {
