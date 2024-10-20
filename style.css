@@ -6,6 +6,9 @@
 :root {
   --theme-text-color: #333;
   --theme-text-color-light: #999;
+  --theme-ash-color: #bbb;
+  --theme-ash-color-light: #ddd;
+  --theme-ash-color-extra-light: #eee;
   --theme-bg-color: #fff;
   --theme-primary-color: #9f7aea;
   --theme-primary-color-light: #b794f4;
@@ -53,6 +56,21 @@ body {
   }
 }
 
+/* Base */
+input[type="text"] {
+  border: 1px solid var(--theme-ash-color-light);
+  padding: 1rem 1.5rem;
+  outline: none;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--theme-text-color);
+
+  &::placeholder {
+    font-size: 0.9rem;
+    color: var(--theme-ash-color);
+  }
+}
+
 /* Container */
 .container {
   margin: 0 10rem;
@@ -60,15 +78,35 @@ body {
   padding-bottom: 12rem;
 }
 
+/* Search and Filter */
+.search-and-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .title-search {
+    width: 20rem;
+
+    &:focus {
+      border: 1px solid var(--theme-primary-color);
+    }
+  }
+
+  .genre-dropdown {
+  }
+}
+
 /* Card */
 .book-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   row-gap: 2rem;
+  margin-top: 2rem;
+  justify-items: center;
 
   .book-card {
     width: 18rem;
-    border: 0.25rem solid var(--theme-secondary-color-light);
+    border: 0.25rem solid var(--theme-ash-color-extra-light);
     padding: 2rem;
 
     .card-image {

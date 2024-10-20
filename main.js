@@ -89,14 +89,14 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
   const cardSubHeaderRight = document.createElement("div");
   const cardWishImageElement = document.createElement("img");
   if (checkIfBookIdIsInLocalStorage(id)) {
-    cardWishImageElement.src = "./public/heart-solid-purple.svg";
+    cardWishImageElement.src = "./public/heart-solid-pink.svg";
   } else {
     cardWishImageElement.src = "./public/heart-solid-gray.svg";
   }
   cardWishImageElement.onclick = () => {
     const result = addBookIdToLocalStorage(id);
     if (result) {
-      cardWishImageElement.src = "./public/heart-solid-purple.svg";
+      cardWishImageElement.src = "./public/heart-solid-pink.svg";
     } else {
       console.log("Remove!");
       removeBookIdFromLocalStorage(id);
