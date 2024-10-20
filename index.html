@@ -18,10 +18,16 @@
     <div class="container">
       <!-- Search and Filter -->
       <section class="search-and-filter">
-        <input type="text" class="title-search" placeholder="Search by Title" />
-        <div class="genre-dropdown-wrapper">
+        <input
+          type="text"
+          id="title-search"
+          class="title-search"
+          placeholder="Search by Title"
+          onkeyup="handleSearchInputChange(event)"
+        />
+        <div class="genre-dropdown-wrapper hidden" id="genre-dropdown-wrapper">
           <img src="./public/caret-down-solid-purple.svg" alt="caret down" />
-          <select class="genre-dropdown hidden" id="genre-dropdown">
+          <select class="genre-dropdown" id="genre-dropdown">
             <option value="">Select an Option</option>
           </select>
         </div>

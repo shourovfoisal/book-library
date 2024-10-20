@@ -1,6 +1,23 @@
+const API_BASE_URL = "https://gutendex.com";
+
 function deleteDomElement(element) {
   element.parentNode.removeChild(element);
 }
+
+const debounce = (fn, delay = 500) => {
+  let timer;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(fn, delay);
+  };
+};
+
+const handleSearchInputChange = debounce(() => {
+  const searchInputElement = document.getElementById("title-search");
+  const searchInput = searchInputElement.value;
+  const searchUrl = `${API_BASE_URL}/books?search=${searchInput}`;
+  fetchBooks({ url: searchUrl });
+});
 
 /**
  * Responds with boolean. true=present, and false=not present
@@ -98,7 +115,6 @@ function cardGenerator({ imageUrl, id, bookName, authorNames, genreList }) {
     if (result) {
       cardWishImageElement.src = "./public/heart-solid-pink.svg";
     } else {
-      console.log("Remove!");
       removeBookIdFromLocalStorage(id);
       cardWishImageElement.src = "./public/heart-solid-gray.svg";
     }
@@ -221,12 +237,10 @@ function paginationGenerator(data) {
 async function fetchBooks({ url }) {
   const response = await fetch(url);
   const data = await response.json();
-  console.log("🚀 ~ fetchBooks ~ data:", data);
 
   paginationGenerator(data);
 
   const { results } = data ?? {};
-  // console.log("🚀 ~ fetchBooks ~ results:", results);
 
   const genreListForDropdown = [];
   const genreDropdownElement = document.getElementById("genre-dropdown");
@@ -256,14 +270,17 @@ async function fetchBooks({ url }) {
       };
       bookCardsElement.append(cardGenerator(cardGeneratorProps));
     });
-  }
 
-  genreDropdownElement.classList.remove("hidden");
+    const genreDropdownWrapper = document.getElementById(
+      "genre-dropdown-wrapper"
+    );
+    genreDropdownWrapper.classList.remove("hidden");
+  }
 }
 
 (function init() {
   fetchBooks({
-    // url: "https://gutendex.com/books",
-    url: "./sample.json",
+    url: `${API_BASE_URL}/books`,
+    // url: "./sample.json",
   });
 })();
