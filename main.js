@@ -289,21 +289,30 @@ function paginationGenerator(data) {
 async function fetchBooks({ url, onAfterFetch }) {
   const loadingScreenElement = document.getElementById("loading-screen");
   loadingScreenElement.classList.remove("no-display");
+  const genreDropdownElement = document.getElementById("genre-dropdown");
+  genreDropdownElement.classList.add("input-disabled");
+  const searchInputElement = document.getElementById("title-search");
+  searchInputElement.classList.add("input-disabled");
+  searchInputElement.disabled = true;
 
   const response = await fetch(url);
   const data = await response.json();
 
   loadingScreenElement.classList.add("no-display");
+  genreDropdownElement.classList.remove("input-disabled");
+  searchInputElement.classList.remove("input-disabled");
+  searchInputElement.disabled = false;
 
   paginationGenerator(data);
 
   const { results } = data ?? {};
 
   const genreListForDropdown = [];
-  const genreDropdownElement = document.getElementById("genre-dropdown");
 
   const bookCardsElement = document.getElementById("book-cards");
   bookCardsElement.innerHTML = ""; // clears everything
+  bookCardsElement.append(loadingScreenElement);
+
   if (Array.isArray(results)) {
     results.forEach((eachBook) => {
       // Collecting subjects/genres for the dropdown
@@ -320,10 +329,10 @@ async function fetchBooks({ url, onAfterFetch }) {
       bookCardsElement.append(cardGenerator(eachBook));
     });
 
-    const genreDropdownWrapper = document.getElementById(
-      "genre-dropdown-wrapper"
-    );
-    genreDropdownWrapper.classList.remove("hidden");
+    // const genreDropdownWrapper = document.getElementById(
+    //   "genre-dropdown-wrapper"
+    // );
+    // genreDropdownWrapper.classList.remove("hidden");
 
     if (onAfterFetch) {
       onAfterFetch();
