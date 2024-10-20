@@ -14,9 +14,11 @@ const debounce = (fn, delay = 500) => {
 
 const handleSearchInputChange = debounce(() => {
   const searchInputElement = document.getElementById("title-search");
-  const searchInput = searchInputElement.value;
-  const searchUrl = `${API_BASE_URL}/books?search=${searchInput}`;
-  fetchBooks({ url: searchUrl });
+  const searchInput = searchInputElement.value?.trim();
+  if (searchInput) {
+    const searchUrl = `${API_BASE_URL}/books?search=${searchInput}`;
+    fetchBooks({ url: searchUrl });
+  }
 });
 
 /**
