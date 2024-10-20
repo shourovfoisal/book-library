@@ -228,10 +228,25 @@ async function fetchBooks({ url }) {
   const { results } = data ?? {};
   // console.log("🚀 ~ fetchBooks ~ results:", results);
 
+  const genreListForDropdown = [];
+  const genreDropdownElement = document.getElementById("genre-dropdown");
+
   const bookCardsElement = document.getElementById("book-cards");
   bookCardsElement.innerHTML = ""; // clears everything
   if (Array.isArray(results)) {
     results.forEach((eachBook) => {
+      // Collecting subjects/genres for the dropdown
+      eachBook?.subjects?.forEach((eachGenre) => {
+        if (!genreListForDropdown?.includes(eachGenre)) {
+          genreListForDropdown.push(eachGenre);
+          const dropdownOptionElement = document.createElement("option");
+          dropdownOptionElement.value = eachGenre;
+          dropdownOptionElement.innerHTML = eachGenre;
+          genreDropdownElement.append(dropdownOptionElement);
+        }
+      });
+
+      // Generating and showing the cards
       const cardGeneratorProps = {
         imageUrl: eachBook?.formats?.["image/jpeg"],
         id: eachBook?.id,
@@ -242,6 +257,8 @@ async function fetchBooks({ url }) {
       bookCardsElement.append(cardGenerator(cardGeneratorProps));
     });
   }
+
+  genreDropdownElement.classList.remove("hidden");
 }
 
 (function init() {
